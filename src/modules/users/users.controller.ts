@@ -13,12 +13,14 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UserResponseDto } from './dto/user-response.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+import { ApiBearerAuth } from '@nestjs/swagger';
 
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post()
+  @ApiBearerAuth()
   async create(@Body() createUserDto: CreateUserDto): Promise<UserResponseDto> {
     const user = await this.usersService.create(createUserDto);
     return {
@@ -29,6 +31,7 @@ export class UsersController {
   }
 
   @Get()
+  @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   async findAll(): Promise<UserResponseDto[]> {
     const users = await this.usersService.findAll();
@@ -40,6 +43,7 @@ export class UsersController {
   }
 
   @Get(':id')
+  @ApiBearerAuth()
   async findOne(@Param('id') id: string): Promise<UserResponseDto> {
     console.log('id', id);
     const user = await this.usersService.findOne(id);
@@ -51,6 +55,7 @@ export class UsersController {
   }
 
   @Put(':id')
+  @ApiBearerAuth()
   async update(
     @Param('id') id: string,
     @Body() updateUserDto: UpdateUserDto,
@@ -64,6 +69,7 @@ export class UsersController {
   }
 
   @Delete(':id')
+  @ApiBearerAuth()
   async remove(@Param('id') id: string): Promise<void> {
     await this.usersService.delete(id);
   }

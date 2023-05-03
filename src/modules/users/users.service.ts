@@ -10,12 +10,10 @@ export class UsersService {
   constructor(@InjectModel('User') private readonly userModel: Model<User>) {}
 
   async findAll(): Promise<User[]> {
-    console.log('all');
     return await this.userModel.find().exec();
   }
 
   async findOne(id: string): Promise<User> {
-    console.log('id', id);
     return await this.userModel.findById(id).exec();
   }
 
