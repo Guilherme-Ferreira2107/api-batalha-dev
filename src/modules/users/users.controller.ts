@@ -21,6 +21,7 @@ export class UsersController {
 
   @Post()
   @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
   async create(@Body() createUserDto: CreateUserDto): Promise<UserResponseDto> {
     const user = await this.usersService.create(createUserDto);
     return {
@@ -44,6 +45,7 @@ export class UsersController {
 
   @Get(':id')
   @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
   async findOne(@Param('id') id: string): Promise<UserResponseDto> {
     console.log('id', id);
     const user = await this.usersService.findOne(id);
@@ -56,6 +58,7 @@ export class UsersController {
 
   @Put(':id')
   @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
   async update(
     @Param('id') id: string,
     @Body() updateUserDto: UpdateUserDto,
@@ -70,6 +73,7 @@ export class UsersController {
 
   @Delete(':id')
   @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
   async remove(@Param('id') id: string): Promise<void> {
     await this.usersService.delete(id);
   }
